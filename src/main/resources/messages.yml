@@ -1,0 +1,11 @@
+prefix: "&7[&b烹饪系统&7]"
+
+commands:
+  no-permission: "%prefix% &c你没有权限执行此命令！"
+  command-usage: "%prefix% &c用法: /YiXu-MagicMachine"
+  unknown-message: "%prefix% &c未找到消息 %message%"
+  reload:
+    reload-succeed: "%prefix% &a配置已重新加载！"
+
+cooking:
+  cooking_started: "%prefix% &a烹饪正在进行中，请耐心等候！"
