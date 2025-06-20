@@ -1,6 +1,5 @@
-package com.yixu.GUI;
+package com.yixu.GUI.CookingGUI;
 
-import com.yixu.Event.CookingGUI.ClickCookingGUIEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

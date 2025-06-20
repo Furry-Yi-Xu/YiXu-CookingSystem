@@ -1,5 +1,8 @@
 package com.yixu.Event.CookingGUI;
 
+import com.yixu.GUI.CookingGUIManager;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
@@ -13,18 +16,26 @@ import org.bukkit.plugin.Plugin;
 public class CloseCookingGUIEvent implements Listener {
 
     private final Plugin plugin;
+    private final CookingGUIManager cookingGUIManager;
 
-    public CloseCookingGUIEvent(Plugin plugin) {
+    public CloseCookingGUIEvent(Plugin plugin, CookingGUIManager cookingGUIManager) {
         this.plugin = plugin;
+        this.cookingGUIManager = cookingGUIManager;
     }
 
     @EventHandler
     public void onCloseCookingGUI(InventoryCloseEvent event) {
 
+        String cookingGUITitle = "§a烹饪界面";
+
+        if (!event.getView().title().equals(Component.text(cookingGUITitle))) {
+            return;
+        }
+
         Inventory inventory = event.getInventory();
         ItemStack item = inventory.getItem(4);
-
         HumanEntity player = event.getPlayer();
+        Location playerOpenGUILocation = cookingGUIManager.getPlayerOpenGUILocation(player.getUniqueId());
 
         if (item != null && item.getType() != Material.AIR) {
             if (player.getInventory().firstEmpty() != -1) {
@@ -34,5 +45,6 @@ public class CloseCookingGUIEvent implements Listener {
             }
         }
 
+        cookingGUIManager.setUsed(playerOpenGUILocation, false);
     }
 }
