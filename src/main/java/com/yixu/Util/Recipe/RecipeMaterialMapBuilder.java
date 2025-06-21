@@ -1,16 +1,16 @@
 package com.yixu.Util.Recipe;
 
 import com.yixu.Config.RecipeConfig.RecipeConfig;
-import com.yixu.Model.RecipeIngredient;
+import com.yixu.Model.RecipeIngredientModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeMaterialMapBuilder {
 
-    public List<RecipeIngredient> buildMaterialMap(String recipeName) {
+    public List<RecipeIngredientModel> buildMaterialMap(String recipeName) {
 
-        List<RecipeIngredient> ingredientList = new ArrayList<>();
+        List<RecipeIngredientModel> ingredientList = new ArrayList<>();
 
         RecipeConfig recipeConfig = new RecipeConfig(recipeName);
 
@@ -24,7 +24,7 @@ public class RecipeMaterialMapBuilder {
                 continue;
             }
 
-            ingredientList.add(new RecipeIngredient(type, material, amount));
+            ingredientList.add(new RecipeIngredientModel(type, material, amount));
         }
 
         return ingredientList;

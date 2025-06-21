@@ -1,20 +1,20 @@
-package com.yixu.GUI.CookingGUI;
+package com.yixu.Model;
 
 import org.bukkit.Location;
 
-public class Cooking {
+public class CookingModel {
 
     private final Location location;
     private boolean isUsed = false;
     private boolean isWorking = false;
 
-    public Cooking(Location location, boolean isUsed, boolean isWorking) {
+    public CookingModel(Location location, boolean isUsed, boolean isWorking) {
         this.location = location;
         this.isUsed = isUsed;
         this.isWorking = isWorking;
     }
 
-    public Cooking(Location location) {
+    public CookingModel(Location location) {
         this.location = location;
         this.isUsed = false;
         this.isWorking = false;

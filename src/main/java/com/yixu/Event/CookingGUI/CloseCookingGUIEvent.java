@@ -1,8 +1,11 @@
 package com.yixu.Event.CookingGUI;
 
+import com.yixu.Config.ConfigManager;
 import com.yixu.GUI.CookingGUIManager;
+import com.yixu.GUI.Holder.CookingGUIHolder;
 import com.yixu.Util.Message.MessageUtil;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -27,9 +30,7 @@ public class CloseCookingGUIEvent implements Listener {
     @EventHandler
     public void onCloseCookingGUI(InventoryCloseEvent event) {
 
-        Component cookingGUITitle = MessageUtil.formatMessage("cooking.cooking_title");
-
-        if (!event.getView().title().equals(cookingGUITitle)) {
+        if (!(event.getInventory().getHolder() instanceof CookingGUIHolder)) {
             return;
         }
 

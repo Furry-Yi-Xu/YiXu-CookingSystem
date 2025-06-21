@@ -1,7 +1,10 @@
 package com.yixu.GUI.CookingGUI;
 
-import com.yixu.Util.Message.MessageUtil;
-import dev.lone.itemsadder.api.CustomStack;
+import com.yixu.Config.ConfigManager;
+import com.yixu.Config.RecipeConfig.CookingGUIConfig;
+import com.yixu.GUI.Holder.CookingGUIHolder;
+import com.yixu.Util.Item.ItemStackResolver;
+import com.yixu.Util.Message.ComponentUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -9,20 +12,29 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 
 public class CookingGUI implements Listener {
 
+    private static final List<String> buttonKeys = List.of("close", "start");
+
     public void openCookingGUI(Player player) {
 
-        Component cookingGUITitle = MessageUtil.formatMessage("cooking.cooking_title");
+        String cookingGUITitle = ConfigManager.getGuiConfig().getConfig().getString("cooking_title");
+        Component formattedTitle = ComponentUtil.formatString(cookingGUITitle);
 
-        Inventory cookingGUI = Bukkit.createInventory(null, 54, cookingGUITitle);
+        Inventory cookingGUI = Bukkit.createInventory(new CookingGUIHolder(), 54, formattedTitle);
 
-        ItemStack itemStack = CustomStack.getInstance("customcrops_earth_3:stardust").getItemStack();
+        for (int i = 0; i < buttonKeys.size(); i++) {
+            String buttonType = CookingGUIConfig.getButtonType(buttonKeys.get(i));
+            String buttonMaterial = CookingGUIConfig.getButtonMaterial(buttonKeys.get(i));
+            int buttonSlot = CookingGUIConfig.getButtonSlot(buttonKeys.get(i));
 
-        cookingGUI.setItem(8, itemStack);
+            ItemStack itemStack = ItemStackResolver.getItemStack(buttonType, buttonMaterial);
+            cookingGUI.setItem(buttonSlot, itemStack);
+        }
 
         player.openInventory(cookingGUI);
-
     }
 }

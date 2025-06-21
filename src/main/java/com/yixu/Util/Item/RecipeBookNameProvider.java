@@ -8,7 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class CheckItemLore {
+public class RecipeBookNameProvider {
     public String getRecipeBookName(ItemStack item) {
 
         if (item == null || !item.hasItemMeta()) {
@@ -31,9 +31,9 @@ public class CheckItemLore {
 
         for (Component lore : itemLores) {
             String serializeLore = PlainTextComponentSerializer.plainText().serialize(lore);
-            for (String recipe : recipeList) {
-                if (serializeLore.contains(recipe)) {
-                    return recipe;
+            for (String recipeName : recipeList) {
+                if (serializeLore.contains(recipeName)) {
+                    return recipeName;
                 }
             }
         }

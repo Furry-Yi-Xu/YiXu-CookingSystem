@@ -1,0 +1,19 @@
+cooking_title: "&a烹饪界面"
+
+cooking_book_slot: 4
+
+cooking_gui_button:
+  close:
+    type: "itemsadder"
+    material: "customcrops_earth_3:stardust"
+    slot: 7
+  start:
+    type: "minecraft"
+    material: "nether_star"
+    slot: 8
+
+ingredient_slots:
+  - 13
+  - 22
+  - 31
+  - 40

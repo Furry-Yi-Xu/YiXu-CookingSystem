@@ -1,8 +1,6 @@
 package com.yixu.Event.CookingGUI;
 
-import com.yixu.Config.ConfigManager;
-import com.yixu.Util.Message.MessageUtil;
-import net.kyori.adventure.text.Component;
+import com.yixu.GUI.Holder.CookingGUIHolder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -19,9 +17,7 @@ public class DragCookingGUIEvent implements Listener {
     @EventHandler
     public void onDragCookingGUI(InventoryDragEvent event) {
 
-        Component cookingGUITitle = MessageUtil.formatMessage("cooking.cooking_title");
-
-        if (!event.getView().title().equals(cookingGUITitle)) {
+        if (!(event.getInventory().getHolder() instanceof CookingGUIHolder)) {
             return;
         }
 

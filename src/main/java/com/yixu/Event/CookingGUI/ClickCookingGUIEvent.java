@@ -1,14 +1,14 @@
 package com.yixu.Event.CookingGUI;
 
 import com.yixu.Config.ConfigManager;
+import com.yixu.Config.RecipeConfig.CookingGUIConfig;
 import com.yixu.GUI.CookingGUIManager;
-import com.yixu.Model.RecipeIngredient;
-import com.yixu.Util.Item.CheckItemLore;
-import com.yixu.Util.Item.DisplayItemInGUI;
+import com.yixu.GUI.Holder.CookingGUIHolder;
+import com.yixu.Model.RecipeIngredientModel;
+import com.yixu.Util.Item.RecipeBookNameProvider;
+import com.yixu.Util.Item.IngredientItemDisplayer;
 import com.yixu.Util.Message.MessageUtil;
 import com.yixu.Util.Recipe.RecipeMaterialMapBuilder;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -41,9 +41,7 @@ public class ClickCookingGUIEvent implements Listener {
 
     @EventHandler
     public void onClickCookingGUI(InventoryClickEvent event) {
-        Component cookingGUITitle = MessageUtil.formatMessage("cooking.cooking_title");
-
-        if (!event.getView().title().equals(cookingGUITitle)) {
+        if (!(event.getInventory().getHolder() instanceof CookingGUIHolder)) {
             return;
         }
 
@@ -60,21 +58,31 @@ public class ClickCookingGUIEvent implements Listener {
             return;
         }
 
+        int bookSlot = CookingGUIConfig.getBookSlot();
+        int closeSlot = CookingGUIConfig.getButtonSlot("close");
+        int startSlot = CookingGUIConfig.getButtonSlot("start");
+
         int slot = event.getRawSlot();
-        if (slot != 4 && slot != 8) {
+        if (slot != bookSlot && slot != closeSlot && slot != startSlot) {
             event.setCancelled(true);
             return;
         }
 
-        CheckItemLore checkItemLore = new CheckItemLore();
+        RecipeBookNameProvider recipeBookNameProvider = new RecipeBookNameProvider();
 
-        if (slot == 4) {
-            displayRecipeMaterial(event, player, checkItemLore);
+        if (slot == bookSlot) {
+            displayRecipeMaterial(event, player, recipeBookNameProvider);
             return;
         }
 
-        if (slot == 8) {
-            ItemStack recipeBook = event.getInventory().getItem(4);
+        if (slot == closeSlot) {
+            event.setCancelled(true);
+            event.getInventory().close();
+            return;
+        }
+
+        if (slot == startSlot) {
+            ItemStack recipeBook = event.getInventory().getItem(bookSlot);
 
             if (recipeBook == null || recipeBook.getType() == Material.AIR) {
                 MessageUtil.sendMessage(player, "cooking.invalid_book");
@@ -82,7 +90,7 @@ public class ClickCookingGUIEvent implements Listener {
                 return;
             }
 
-            String recipeName = checkItemLore.getRecipeBookName(recipeBook);
+            String recipeName = recipeBookNameProvider.getRecipeBookName(recipeBook);
             if (recipeName == null) {
                 MessageUtil.sendMessage(player, "cooking.invalid_book");
                 event.setCancelled(true);
@@ -96,7 +104,7 @@ public class ClickCookingGUIEvent implements Listener {
         }
     }
 
-    private void displayRecipeMaterial(InventoryClickEvent event, Player player, CheckItemLore checkItemLore) {
+    private void displayRecipeMaterial(InventoryClickEvent event, Player player, RecipeBookNameProvider recipeBookNameProvider) {
         ItemStack cursorItem = event.getCursor();
 
         if (event.getAction() == InventoryAction.PICKUP_ALL) {
@@ -112,7 +120,7 @@ public class ClickCookingGUIEvent implements Listener {
             return;
         }
 
-        String recipeName = checkItemLore.getRecipeBookName(cursorItem);
+        String recipeName = recipeBookNameProvider.getRecipeBookName(cursorItem);
         if (recipeName == null) {
             MessageUtil.sendMessage(player, "cooking.invalid_book");
             event.setCancelled(true);
@@ -120,15 +128,15 @@ public class ClickCookingGUIEvent implements Listener {
         }
 
         RecipeMaterialMapBuilder builder = new RecipeMaterialMapBuilder();
-        List<RecipeIngredient> ingredients = builder.buildMaterialMap(recipeName);
+        List<RecipeIngredientModel> ingredients = builder.buildMaterialMap(recipeName);
         if (ingredients == null || ingredients.isEmpty()) {
             MessageUtil.sendMessage(player, "cooking.invalid_material");
             event.setCancelled(true);
             return;
         }
 
-        DisplayItemInGUI displayItemInGUI = new DisplayItemInGUI();
-        displayItemInGUI.displayItemInGUI(player, ingredients, recipeName, event.getView());
+        IngredientItemDisplayer ingredientItemDisplayer = new IngredientItemDisplayer();
+        ingredientItemDisplayer.displayItemInGUI(player, ingredients, recipeName, event.getView());
     }
 
     private void startCooking(Player player, ItemStack recipeBook, String recipeName, Location guiLocation) {

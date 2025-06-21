@@ -8,7 +8,6 @@ commands:
     reload-succeed: "&a配置已重新加载！"
 
 cooking:
-  cooking_title: "&a烹饪界面"
   cooking_used: "&c烹饪台正在被其他玩家使用中！"
   cooking_used_break: "&c不能破坏正在使用中的烹饪台！"
   cooking_started: "&a烹饪正在进行中，请耐心等候！"

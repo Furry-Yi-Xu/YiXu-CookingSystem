@@ -1,11 +1,11 @@
 package com.yixu.Model;
 
-public class SlotAndAmount {
+public class SlotAndAmountModel {
 
     private final int slot;
     private final int amount;
 
-    public SlotAndAmount(int slot, int amount) {
+    public SlotAndAmountModel(int slot, int amount) {
         this.slot = slot;
         this.amount = amount;
     }

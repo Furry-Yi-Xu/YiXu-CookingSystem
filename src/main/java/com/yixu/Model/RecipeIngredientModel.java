@@ -1,11 +1,11 @@
 package com.yixu.Model;
 
-public class RecipeIngredient {
+public class RecipeIngredientModel {
     private final String type;
     private final String material;
     private final int amount;
 
-    public RecipeIngredient(String type, String material, int amount) {
+    public RecipeIngredientModel(String type, String material, int amount) {
         this.type = type;
         this.material = material;
         this.amount = amount;

@@ -1,6 +1,6 @@
 package com.yixu.GUI;
 
-import com.yixu.GUI.CookingGUI.Cooking;
+import com.yixu.Model.CookingModel;
 import org.bukkit.Location;
 
 import java.util.HashMap;
@@ -9,14 +9,14 @@ import java.util.UUID;
 
 public class CookingGUIManager {
 
-    private final Map<Location, Cooking> cookingGUIMap = new HashMap<>();
+    private final Map<Location, CookingModel> cookingGUIMap = new HashMap<>();
 
     private final Map<UUID, Location> playerOpenLocationMap = new HashMap<>();
 
-    public Cooking getCookingGUI(Location location) {
+    public CookingModel getCookingGUI(Location location) {
 
         if (!cookingGUIMap.containsKey(location)) {
-            cookingGUIMap.put(location, new Cooking(location));
+            cookingGUIMap.put(location, new CookingModel(location));
         }
 
         return cookingGUIMap.get(location);
@@ -24,25 +24,25 @@ public class CookingGUIManager {
 
     public boolean isUsed(Location location) {
 
-        Cooking cookingStatus = cookingGUIMap.get(location);
+        CookingModel cookingModelStatus = cookingGUIMap.get(location);
 
-        return cookingGUIMap.get(location) != null && cookingStatus.isUsed();
+        return cookingGUIMap.get(location) != null && cookingModelStatus.isUsed();
     }
 
     public boolean isWorking(Location location) {
-        Cooking cookingStatus = cookingGUIMap.get(location);
+        CookingModel cookingModelStatus = cookingGUIMap.get(location);
 
-        return cookingGUIMap.get(location) != null && cookingStatus.isWorking();
+        return cookingGUIMap.get(location) != null && cookingModelStatus.isWorking();
     }
 
     public void setUsed(Location location, boolean isUsed) {
-        Cooking cookingStatus = getCookingGUI(location);
-        cookingStatus.setUsed(isUsed);
+        CookingModel cookingModelStatus = getCookingGUI(location);
+        cookingModelStatus.setUsed(isUsed);
     }
 
     public void setWorking(Location location, boolean isWorking) {
-        Cooking cookingStatus = getCookingGUI(location);
-        cookingStatus.setWorking(isWorking);
+        CookingModel cookingModelStatus = getCookingGUI(location);
+        cookingModelStatus.setWorking(isWorking);
     }
 
     public void removeCookingStatus(Location location) {
