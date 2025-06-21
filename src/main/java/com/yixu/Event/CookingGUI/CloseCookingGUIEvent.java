@@ -1,6 +1,5 @@
 package com.yixu.Event.CookingGUI;
 
-import com.yixu.Config.ConfigManager;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.Util.Message.MessageUtil;
 import net.kyori.adventure.text.Component;
@@ -37,7 +36,7 @@ public class CloseCookingGUIEvent implements Listener {
         Inventory inventory = event.getInventory();
         ItemStack item = inventory.getItem(4);
         HumanEntity player = event.getPlayer();
-        Location playerOpenGUILocation = cookingGUIManager.getPlayerOpenGUILocation(player.getUniqueId());
+        Location playerOpenGUILocation = cookingGUIManager.getCookingTableLocation(player.getUniqueId());
 
         if (item != null && item.getType() != Material.AIR) {
             if (player.getInventory().firstEmpty() != -1) {

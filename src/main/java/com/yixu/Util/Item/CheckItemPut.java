@@ -1,7 +1,5 @@
 package com.yixu.Util.Item;
 
-import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
-import com.yixu.Config.ConfigManager;
 import com.yixu.Model.RecipeIngredient;
 import com.yixu.Model.SlotAndAmount;
 import com.yixu.Util.Message.MessageUtil;

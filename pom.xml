@@ -102,10 +102,5 @@
             <version>3.6.29</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.stefvanschie.inventoryframework</groupId>
-            <artifactId>IF</artifactId>
-            <version>0.11.0</version>
-        </dependency>
     </dependencies>
 </project>

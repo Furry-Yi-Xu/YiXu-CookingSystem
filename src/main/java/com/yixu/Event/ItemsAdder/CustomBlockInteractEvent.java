@@ -1,10 +1,8 @@
 package com.yixu.Event.ItemsAdder;
 
-import com.yixu.Config.ConfigManager;
 import com.yixu.GUI.CookingGUI.CookingGUI;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.Util.Message.MessageUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,11 +39,17 @@ public class CustomBlockInteractEvent implements Listener {
             return;
         }
 
+        if (cookingGUIManager.isWorking(location)) {
+            MessageUtil.sendMessage(player, "cooking.cooking_started");
+            return;
+        }
+
         if (namespacedID.equals("customcrops_earth_3:deepslate_starlight_ore")) {
             CookingGUI cookingGUI = new CookingGUI();
             cookingGUI.openCookingGUI(player);
+
             cookingGUIManager.setUsed(location, true);
-            cookingGUIManager.setPlayerOpenGUILocation(player.getUniqueId(), location);
+            cookingGUIManager.setCookingTableLocation(player.getUniqueId(), location);
         }
     }
 

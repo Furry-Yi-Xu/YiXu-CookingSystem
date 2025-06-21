@@ -1,33 +1,45 @@
 package com.yixu.Util.Item;
 
-import com.github.stefvanschie.inventoryframework.gui.GuiItem;
-import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
-import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import com.yixu.Config.RecipeConfig.RecipeConfig;
-import com.yixu.Model.SlotAndAmount;
+import com.yixu.Model.RecipeIngredient;
+import dev.lone.itemsadder.api.CustomStack;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.Map;
 
 public class DisplayItemInGUI {
 
-    public void displayItemInGUI(Player player, Map<Integer, List<SlotAndAmount>> materialInInventory, String recipeName, InventoryView inventoryView) {
+    public void displayItemInGUI(Player player, List<RecipeIngredient> recipeIngredientsList, String recipeName, InventoryView inventoryView) {
 
-        RecipeConfig recipeConfig = new RecipeConfig(recipeName);
+        ItemStack itemStack = null;
 
-        for (int i = 0; i < materialInInventory.size(); i++) {
-            List<SlotAndAmount> slotList = materialInInventory.get(i);
+        for (int i = 0; i < recipeIngredientsList.size(); i++) {
 
-            int slot = slotList.getFirst().getSlot();
-            ItemStack item = player.getInventory().getItem(slot).clone();
-            item.setAmount(recipeConfig.getRecipeAmount(i));
+            RecipeIngredient recipeIngredient = recipeIngredientsList.get(i);
 
-            if (item != null) {
-                slot = (i + 1) * 9 + 4;
-                inventoryView.setItem(slot, item);
+            String ingredientType = recipeIngredient.getType();
+            String ingredientMaterial = recipeIngredient.getMaterial();
+            int ingredientAmount = recipeIngredient.getAmount();
+
+            switch (ingredientType) {
+                case "itemsadder":
+                    itemStack = CustomStack.getInstance(ingredientMaterial).getItemStack();
+                    break;
+                case "minecraft":
+                    Material material = Material.matchMaterial(ingredientMaterial.toUpperCase());
+                    itemStack = new ItemStack(material);
+                    break;
+            }
+
+            itemStack.setAmount(ingredientAmount);
+
+            if (itemStack != null) {
+                int slot = (i + 1) * 9 + 4;
+                inventoryView.setItem(slot, itemStack);
             }
         }
     }

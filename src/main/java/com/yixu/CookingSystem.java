@@ -5,7 +5,6 @@ import com.yixu.Command.MainCommand.MainTabCompleter;
 import com.yixu.Config.ConfigManager;
 import com.yixu.Event.EventManager;
 import com.yixu.GUI.CookingGUIManager;
-import com.yixu.Util.Message.MessageUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CookingSystem extends JavaPlugin {

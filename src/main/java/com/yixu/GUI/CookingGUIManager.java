@@ -42,18 +42,18 @@ public class CookingGUIManager {
 
     public void setWorking(Location location, boolean isWorking) {
         Cooking cookingStatus = getCookingGUI(location);
-        cookingStatus.setUsed(isWorking);
+        cookingStatus.setWorking(isWorking);
     }
 
     public void removeCookingStatus(Location location) {
         cookingGUIMap.remove(location);
     }
 
-    public void setPlayerOpenGUILocation(UUID uuid, Location location) {
+    public void setCookingTableLocation(UUID uuid, Location location) {
         playerOpenLocationMap.put(uuid, location);
     }
 
-    public Location getPlayerOpenGUILocation(UUID uuid) {
+    public Location getCookingTableLocation(UUID uuid) {
 
         return playerOpenLocationMap.get(uuid);
     }

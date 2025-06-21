@@ -9,8 +9,11 @@ commands:
 
 cooking:
   cooking_title: "&a烹饪界面"
-  cooking_used: "&a烹饪台正在被其他玩家使用中！"
+  cooking_used: "&c烹饪台正在被其他玩家使用中！"
+  cooking_used_break: "&c不能破坏正在使用中的烹饪台！"
   cooking_started: "&a烹饪正在进行中，请耐心等候！"
+  cooking_started_break: "&c不能破坏正在烹饪中的烹饪台！"
+  cooking_book_destroy: "&c该烹饪书耐久耗尽..."
   invalid_book: "&c这不是有效的烹饪书！"
   invalid_material: "&c缺少烹饪材料，请重试！"
   insufficient_item: "&c缺少材料: &r%item%"
