@@ -1,7 +1,9 @@
 package com.yixu.Event.ItemsAdder;
 
+import com.yixu.Config.ConfigManager;
 import com.yixu.GUI.CookingGUI.CookingGUI;
 import com.yixu.GUI.CookingGUIManager;
+import com.yixu.Util.Message.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -35,7 +37,7 @@ public class CustomBlockInteractEvent implements Listener {
         Location location = event.getBlockClicked().getLocation();
 
         if (cookingGUIManager.isUsed(location)) {
-            player.sendMessage("当前烹饪台正在使用中...");
+            MessageUtil.sendMessage(player, "cooking.cooking_used");
             return;
         }
 

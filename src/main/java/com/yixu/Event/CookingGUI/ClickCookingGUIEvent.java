@@ -1,10 +1,12 @@
 package com.yixu.Event.CookingGUI;
 
+import com.yixu.Config.ConfigManager;
 import com.yixu.Model.RecipeIngredient;
 import com.yixu.Model.SlotAndAmount;
 import com.yixu.Util.Item.CheckItemLore;
 import com.yixu.Util.Item.CheckItemPut;
 import com.yixu.Util.Item.DisplayItemInGUI;
+import com.yixu.Util.Message.MessageUtil;
 import com.yixu.Util.Recipe.RecipeMaterialMapBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -36,9 +38,9 @@ public class ClickCookingGUIEvent implements Listener {
     @EventHandler
     public void onClickCookingGUI(InventoryClickEvent event) {
 
-        String cookingGUITitle = "§a烹饪界面";
+        Component cookingGUITitle = MessageUtil.formatMessage("cooking.cooking_title");
 
-        if (!event.getView().title().equals(Component.text(cookingGUITitle))) {
+        if (!event.getView().title().equals(cookingGUITitle)) {
             return;
         }
 
@@ -82,7 +84,7 @@ public class ClickCookingGUIEvent implements Listener {
         String recipeName = checkItemLore.getRecipeBookName(cursorItem);
 
         if (recipeName == null) {
-            player.sendMessage("&c这不是一个有效的烹饪书！");
+            MessageUtil.sendMessage(player, "cooking.invalid_book");
             event.setCancelled(true);
             return;
         }
@@ -91,7 +93,7 @@ public class ClickCookingGUIEvent implements Listener {
         List<RecipeIngredient> recipeIngredientsList = recipeMaterialMapBuilder.buildMaterialMap(recipeName);
 
         if (recipeIngredientsList == null || recipeIngredientsList.isEmpty()) {
-            player.sendMessage("&c烹饪书无效或未配置材料！");
+            MessageUtil.sendMessage(player, "cooking.invalid_material");
             return;
         }
 

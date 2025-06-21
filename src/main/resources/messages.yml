@@ -1,11 +1,16 @@
-prefix: "&7[&b烹饪系统&7]"
+prefix: "&7[&b烹饪系统&7] "
 
 commands:
-  no-permission: "%prefix% &c你没有权限执行此命令！"
-  command-usage: "%prefix% &c用法: /YiXu-MagicMachine"
-  unknown-message: "%prefix% &c未找到消息 %message%"
+  no-permission: "&c你没有权限执行此命令！"
+  command-usage: "&c用法: /YiXu-CookingSystem"
+  unknown-message: "&c未找到消息 %message%"
   reload:
-    reload-succeed: "%prefix% &a配置已重新加载！"
+    reload-succeed: "&a配置已重新加载！"
 
 cooking:
-  cooking_started: "%prefix% &a烹饪正在进行中，请耐心等候！"
+  cooking_title: "&a烹饪界面"
+  cooking_used: "&a烹饪台正在被其他玩家使用中！"
+  cooking_started: "&a烹饪正在进行中，请耐心等候！"
+  invalid_book: "&c这不是有效的烹饪书！"
+  invalid_material: "&c缺少烹饪材料，请重试！"
+  insufficient_item: "&c缺少材料: &r%item%"

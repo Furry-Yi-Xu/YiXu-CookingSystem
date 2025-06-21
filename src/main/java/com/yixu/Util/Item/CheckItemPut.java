@@ -1,10 +1,13 @@
 package com.yixu.Util.Item;
 
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
+import com.yixu.Config.ConfigManager;
 import com.yixu.Model.RecipeIngredient;
 import com.yixu.Model.SlotAndAmount;
+import com.yixu.Util.Message.MessageUtil;
 import dev.lone.itemsadder.api.CustomStack;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -40,15 +43,25 @@ public class CheckItemPut {
 
             if (slotAndAmounts == null) {
 
+                Map<String, String> variables = null;
+
                 switch (materialType) {
                     case "itemsadder":
                         String displayName = CustomStack.getInstance(materialName).getDisplayName();
-                        player.sendMessage("材料不足: " + displayName);
+                        variables = Map.of(
+                                "item", displayName
+                        );
+                        MessageUtil.sendMessage(player, "cooking.insufficient_item", variables);
                         break;
                     default:
+                        Map<String, TranslatableComponent> variablesVanilla = null;
                         Material material = Material.matchMaterial(materialName.toUpperCase());
                         ItemStack itemStack = new ItemStack(material);
-                        player.sendMessage(Component.text("材料不足: ").append(Component.translatable(itemStack.translationKey())));
+                        TranslatableComponent translationItemStack = Component.translatable(itemStack.translationKey());
+                        variables = Map.of(
+                                "item", ""
+                        );
+                        MessageUtil.sendMessage(player, "cooking.insufficient_item", variables, translationItemStack);
                 }
 
                 return null;

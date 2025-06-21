@@ -1,6 +1,8 @@
 package com.yixu.Event.CookingGUI;
 
+import com.yixu.Config.ConfigManager;
 import com.yixu.GUI.CookingGUIManager;
+import com.yixu.Util.Message.MessageUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,9 +28,9 @@ public class CloseCookingGUIEvent implements Listener {
     @EventHandler
     public void onCloseCookingGUI(InventoryCloseEvent event) {
 
-        String cookingGUITitle = "§a烹饪界面";
+        Component cookingGUITitle = MessageUtil.formatMessage("cooking.cooking_title");
 
-        if (!event.getView().title().equals(Component.text(cookingGUITitle))) {
+        if (!event.getView().title().equals(cookingGUITitle)) {
             return;
         }
 

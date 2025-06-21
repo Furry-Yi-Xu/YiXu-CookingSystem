@@ -20,7 +20,6 @@ public final class CookingSystem extends JavaPlugin {
 
         CookingGUIManager cookingGUIManager = new CookingGUIManager();
 
-        MessageUtil.init(this);
         ConfigManager.init(this);
         EventManager.init(this, cookingGUIManager);
 

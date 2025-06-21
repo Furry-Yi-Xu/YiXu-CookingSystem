@@ -1,36 +1,74 @@
 package com.yixu.Util.Message;
 
-import com.yixu.Config.RecipeConfig.BaseConfig;
-import org.bukkit.ChatColor;
+import com.yixu.Config.ConfigManager;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
 
 public class MessageUtil {
-    private static BaseConfig messagesConfig;
 
-    public static void init(Plugin plugin) {
-        messagesConfig = new BaseConfig(plugin, "messages.yml");
+    private static final LegacyComponentSerializer serializer = LegacyComponentSerializer.legacyAmpersand();
+
+    public static String getMessageFromFile(String path) {
+        return ConfigManager.getMessagesConfig().getConfig().getString(path, "§c消息路径不存在：" + path);
     }
 
-    public static String getRawMessage(String path) {
-        return messagesConfig.getConfig().getString(path, "§c消息路径不存在：" + path);
+    public static Component getPrefixFromFile() {
+        String rawPrefix = ConfigManager.getMessagesConfig().getConfig().getString("prefix", "§c插件前缀不存在");
+        return serializer.deserialize(rawPrefix);
     }
 
-    public static String getMessage(String path, Map<String, String> placeholders) {
-        String message = getRawMessage(path);
-        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-            message = message.replace("%" + entry.getKey() + "%", entry.getValue());
+    public static Component formatMessage(String path, Map<String, String> variables) {
+        String message = getMessageFromFile(path);
+
+        for (Map.Entry<String, String> entry : variables.entrySet()) {
+            String placeholder = "%" + entry.getKey() + "%";
+            String value = entry.getValue() != null ? entry.getValue() : "";
+            message = message.replace(placeholder, value);
         }
-        return ChatColor.translateAlternateColorCodes('&', message);
+
+        return serializer.deserialize(message);
     }
 
-    public static void sendMessage(CommandSender sender, String path, Map<String, String> placeholders) {
-        sender.sendMessage(getMessage(path, placeholders));
+    public static Component formatMessage(String path) {
+        String message = getMessageFromFile(path);
+        return serializer.deserialize(message);
+    }
+
+    public static Component formatMessage(String path, Map<String, String> variables, TranslatableComponent translatableComponent) {
+        String message = getMessageFromFile(path);
+
+        for (Map.Entry<String, String> entry : variables.entrySet()) {
+            String placeholder = "%" + entry.getKey() + "%";
+            String value = entry.getValue() != null ? entry.getValue() : "";
+            message = message.replace(placeholder, value);
+        }
+
+        return serializer.deserialize(message).append(translatableComponent);
     }
 
     public static void sendMessage(CommandSender sender, String path) {
-        sendMessage(sender, path, Map.of("prefix", getRawMessage("prefix")));
+        Component formattedPrefix = getPrefixFromFile();
+        Component formattedMessage = formatMessage(path);
+
+        sender.sendMessage(formattedPrefix.append(formattedMessage));
     }
+
+    public static void sendMessage(CommandSender sender, String path, Map<String, String> variables) {
+        Component formattedPrefix = getPrefixFromFile();
+        Component formattedMessage = formatMessage(path, variables);
+
+        sender.sendMessage(formattedPrefix.append(formattedMessage));
+    }
+
+    public static void sendMessage(CommandSender sender, String path, Map<String, String> variables, TranslatableComponent translatableComponent) {
+        Component formattedPrefix = getPrefixFromFile();
+        Component formattedMessage = formatMessage(path, variables, translatableComponent);
+
+        sender.sendMessage(formattedPrefix.append(formattedMessage));
+    }
+
 }
