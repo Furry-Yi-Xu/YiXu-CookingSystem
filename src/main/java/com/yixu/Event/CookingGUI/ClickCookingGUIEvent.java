@@ -1,14 +1,20 @@
 package com.yixu.Event.CookingGUI;
 
 import com.yixu.Config.ConfigManager;
-import com.yixu.Config.RecipeConfig.CookingGUIConfig;
+import com.yixu.Config.CookingConfig.ConfigConfig;
+import com.yixu.Config.CookingConfig.CookingGUIConfig;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.GUI.Holder.CookingGUIHolder;
 import com.yixu.Model.RecipeIngredientModel;
+import com.yixu.Scheduler.BukkitAsyncScheduler;
+import com.yixu.Scheduler.BukkitSyncScheduler;
+import com.yixu.Util.Hologram.DecentHologram;
 import com.yixu.Util.Item.RecipeBookNameProvider;
 import com.yixu.Util.Item.IngredientItemDisplayer;
 import com.yixu.Util.Message.MessageUtil;
 import com.yixu.Util.Recipe.RecipeMaterialMapBuilder;
+import eu.decentsoftware.holograms.api.DHAPI;
+import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,14 +35,28 @@ public class ClickCookingGUIEvent implements Listener {
     private final Plugin plugin;
     private final CookingGUIManager cookingGUIManager;
 
+    private final BukkitSyncScheduler bukkitSyncScheduler;
+    private final BukkitAsyncScheduler bukkitAsyncScheduler;
+
+    private final int bookSlot = CookingGUIConfig.getBookSlot();
+    private final int closeSlot = CookingGUIConfig.getButtonSlot("close");
+    private final int startSlot = CookingGUIConfig.getButtonSlot("start");
+
     private static final Set<InventoryAction> VALID_ACTIONS = Set.of(
             InventoryAction.PLACE_ALL,
             InventoryAction.PICKUP_ALL
     );
 
-    public ClickCookingGUIEvent(Plugin plugin, CookingGUIManager cookingGUIManager) {
+    public ClickCookingGUIEvent(
+            Plugin plugin,
+            CookingGUIManager cookingGUIManager,
+            BukkitSyncScheduler bukkitSyncScheduler,
+            BukkitAsyncScheduler bukkitAsyncScheduler
+    ) {
         this.plugin = plugin;
         this.cookingGUIManager = cookingGUIManager;
+        this.bukkitSyncScheduler = bukkitSyncScheduler;
+        this.bukkitAsyncScheduler = bukkitAsyncScheduler;
     }
 
     @EventHandler
@@ -57,10 +77,6 @@ public class ClickCookingGUIEvent implements Listener {
             event.setCancelled(false);
             return;
         }
-
-        int bookSlot = CookingGUIConfig.getBookSlot();
-        int closeSlot = CookingGUIConfig.getButtonSlot("close");
-        int startSlot = CookingGUIConfig.getButtonSlot("start");
 
         int slot = event.getRawSlot();
         if (slot != bookSlot && slot != closeSlot && slot != startSlot) {
@@ -98,9 +114,7 @@ public class ClickCookingGUIEvent implements Listener {
             }
 
             Location cookingTableLocation = cookingGUIManager.getCookingTableLocation(player.getUniqueId());
-            startCooking(player, recipeBook, recipeName, cookingTableLocation);
-            event.setCancelled(true);
-            event.getInventory().close();
+            startCooking(player, recipeBook, recipeName, cookingTableLocation, event);
         }
     }
 
@@ -139,7 +153,7 @@ public class ClickCookingGUIEvent implements Listener {
         ingredientItemDisplayer.displayItemInGUI(player, ingredients, recipeName, event.getView());
     }
 
-    private void startCooking(Player player, ItemStack recipeBook, String recipeName, Location guiLocation) {
+    private void startCooking(Player player, ItemStack recipeBook, String recipeName, Location guiLocation, InventoryClickEvent event) {
         int stamina = ConfigManager.getRecipeConfig().getConfig().getInt(recipeName + ".recipe_book.stamina");
 
         ItemMeta meta = recipeBook.getItemMeta();
@@ -160,8 +174,18 @@ public class ClickCookingGUIEvent implements Listener {
             recipeBook.setItemMeta(itemMeta);
         }
 
+        String hologramName = DecentHologram.getHologram(guiLocation);
+        Hologram hologram = DHAPI.getHologram(hologramName);
+
+        List<String> hologramLines = ConfigConfig.getCookingTableHologramLines();
+        String replacedLines = hologramLines.get(1).replace("无", recipeName);
+
+        DHAPI.setHologramLine(hologram, 1, replacedLines);
+
         MessageUtil.sendMessage(player, "cooking.cooking_started");
 
         cookingGUIManager.setWorking(guiLocation, true);
+        event.setCancelled(true);
+        event.getInventory().close();
     }
 }

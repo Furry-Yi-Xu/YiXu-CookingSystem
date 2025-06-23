@@ -1,6 +1,6 @@
 package com.yixu.Config;
 
-import com.yixu.Config.RecipeConfig.BaseConfig;
+import com.yixu.Config.CookingConfig.BaseConfig;
 import org.bukkit.plugin.Plugin;
 
 public class ConfigManager {

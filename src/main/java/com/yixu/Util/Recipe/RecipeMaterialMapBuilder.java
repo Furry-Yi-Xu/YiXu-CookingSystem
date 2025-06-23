@@ -1,6 +1,6 @@
 package com.yixu.Util.Recipe;
 
-import com.yixu.Config.RecipeConfig.RecipeConfig;
+import com.yixu.Config.CookingConfig.RecipeConfig;
 import com.yixu.Model.RecipeIngredientModel;
 
 import java.util.ArrayList;

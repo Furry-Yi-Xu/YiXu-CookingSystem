@@ -1,4 +1,4 @@
-package com.yixu.Config.RecipeConfig;
+package com.yixu.Config.CookingConfig;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

@@ -1,7 +1,7 @@
 package com.yixu.GUI.CookingGUI;
 
 import com.yixu.Config.ConfigManager;
-import com.yixu.Config.RecipeConfig.CookingGUIConfig;
+import com.yixu.Config.CookingConfig.CookingGUIConfig;
 import com.yixu.GUI.Holder.CookingGUIHolder;
 import com.yixu.Util.Item.ItemStackResolver;
 import com.yixu.Util.Message.ComponentUtil;

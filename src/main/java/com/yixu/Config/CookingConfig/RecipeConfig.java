@@ -1,4 +1,4 @@
-package com.yixu.Config.RecipeConfig;
+package com.yixu.Config.CookingConfig;
 
 import com.yixu.Config.ConfigManager;
 

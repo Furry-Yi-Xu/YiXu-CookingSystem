@@ -1,10 +1,17 @@
 package com.yixu.Event.ItemsAdder;
 
+import com.yixu.Config.CookingConfig.ConfigConfig;
 import com.yixu.GUI.CookingGUIManager;
+import com.yixu.Util.Hologram.DecentHologram;
 import com.yixu.Util.Message.MessageUtil;
+import eu.decentsoftware.holograms.api.DHAPI;
+import eu.decentsoftware.holograms.api.holograms.Hologram;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+
+import java.util.List;
 
 public class CustomBlockBreakEvent implements Listener {
 
@@ -31,5 +38,16 @@ public class CustomBlockBreakEvent implements Listener {
             return;
         }
 
+        String namespacedID = event.getNamespacedID();
+
+        if (namespacedID.equals(ConfigConfig.getCookingTableName())) {
+
+            Location location = event.getBlock().getLocation();
+
+            String hologramName = DecentHologram.getHologram(location);
+
+            DHAPI.removeHologram(hologramName);
+
+        }
     }
 }

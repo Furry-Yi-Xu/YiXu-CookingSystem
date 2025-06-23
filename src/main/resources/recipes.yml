@@ -1,4 +1,6 @@
 金属药剂:
+  cooking:
+    cooking_time: 30
   ingredient_1:
     type: "itemsadder"
     material: "customcrops:cabbage"

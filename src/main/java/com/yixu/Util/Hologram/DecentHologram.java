@@ -4,28 +4,39 @@ import eu.decentsoftware.holograms.api.DHAPI;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.Location;
 
+import java.util.List;
+
 public class DecentHologram {
 
-    public String getHologram(Location location){
+    public static String getHologram(Location location) {
 
         int X = (int) Math.round(location.getX());
-        int Y = (int) Math.round(location.getX());
-        int Z = (int) Math.round(location.getX());
+        int Y = (int) Math.round(location.getY());
+        int Z = (int) Math.round(location.getZ());
 
-        String hologramName = location.getWorld().getName() + "_" + X + "_" + Y + "_"  + Z;
-
-        if (DHAPI.getHologram(hologramName) == null) {
-            createHologram(location, hologramName);
-            return hologramName;
-        }
+        String hologramName = location.getWorld().getName() + "_" + X + "_" + Y + "_" + Z;
 
         return hologramName;
     }
 
-    public void createHologram(Location location, String hologramName){
-        Location offsetLocation = location.clone().add(-0.15, 2, 0.5);
-        Hologram hologram = DHAPI.createHologram(hologramName, offsetLocation, false);
+    public static Hologram getHologram(Location location, List<Double> hologramOffset, boolean isSaveToFile) {
+
+        int X = (int) Math.round(location.getX());
+        int Y = (int) Math.round(location.getY());
+        int Z = (int) Math.round(location.getZ());
+
+        String hologramName = location.getWorld().getName() + "_" + X + "_" + Y + "_" + Z;
+
+        if (DHAPI.getHologram(hologramName) == null) {
+            createHologram(location, hologramName, hologramOffset, isSaveToFile);
+        }
+
+        return DHAPI.getHologram(hologramName);
+    }
+
+    public static void createHologram(Location location, String hologramName, List<Double> hologramOffset, boolean isSaveToFile) {
+        Location offsetLocation = location.clone().add(hologramOffset.get(0), hologramOffset.get(1), hologramOffset.get(2));
+        Hologram hologram = DHAPI.createHologram(hologramName, offsetLocation, isSaveToFile);
         hologram.setAlwaysFacePlayer(true);
-        DHAPI.addHologramLine(hologram, "&r");
     }
 }

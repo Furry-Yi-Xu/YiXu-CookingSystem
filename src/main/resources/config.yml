@@ -1,2 +1,15 @@
+cooking_table:
+  namespaceID: "customcrops_earth_3:deepslate_starlight_ore"
+  hologram:
+    offset:
+      - 0.5
+      - 2.5
+      - 0.5
+    lines:
+      - "&6&l烹饪台"
+      - "&e烹饪食谱: &a无"
+      - "&e烹饪进度: &a0%"
+      - "[ 右键打开烹饪台 ]"
+
 recipe_list:
-  - 金属药剂
+  - "金属药剂"

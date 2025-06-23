@@ -1,5 +1,6 @@
 package com.yixu.Event.ItemsAdder;
 
+import com.yixu.Config.CookingConfig.ConfigConfig;
 import com.yixu.GUI.CookingGUI.CookingGUI;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.Util.Message.MessageUtil;
@@ -44,7 +45,7 @@ public class CustomBlockInteractEvent implements Listener {
             return;
         }
 
-        if (namespacedID.equals("customcrops_earth_3:deepslate_starlight_ore")) {
+        if (namespacedID.equals(ConfigConfig.getCookingTableName())) {
             CookingGUI cookingGUI = new CookingGUI();
             cookingGUI.openCookingGUI(player);
 
