@@ -1,4 +1,4 @@
-package com.yixu.Util.Recipe;
+package com.yixu.Builder.Recipe;
 
 import com.yixu.Config.CookingConfig.RecipeConfig;
 import com.yixu.Model.RecipeIngredientModel;

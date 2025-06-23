@@ -3,6 +3,7 @@ package com.yixu.Event.CookingGUI;
 import com.yixu.Config.ConfigManager;
 import com.yixu.Config.CookingConfig.ConfigConfig;
 import com.yixu.Config.CookingConfig.CookingGUIConfig;
+import com.yixu.CookingSystem;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.GUI.Holder.CookingGUIHolder;
 import com.yixu.Model.RecipeIngredientModel;
@@ -12,11 +13,13 @@ import com.yixu.Util.Hologram.DecentHologram;
 import com.yixu.Util.Item.RecipeBookNameProvider;
 import com.yixu.Util.Item.IngredientItemDisplayer;
 import com.yixu.Util.Message.MessageUtil;
-import com.yixu.Util.Recipe.RecipeMaterialMapBuilder;
+import com.yixu.Builder.Recipe.RecipeMaterialMapBuilder;
+import com.yixu.Util.PersistentDataContainer.PersistentDataContainer;
 import eu.decentsoftware.holograms.api.DHAPI;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,6 +28,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
@@ -35,12 +39,12 @@ public class ClickCookingGUIEvent implements Listener {
     private final Plugin plugin;
     private final CookingGUIManager cookingGUIManager;
 
+    private final int bookSlot = CookingGUIConfig.getButtonSlot("Book");
+    private final int closeSlot = CookingGUIConfig.getButtonSlot("Close");
+    private final int startSlot = CookingGUIConfig.getButtonSlot("Start");
+
     private final BukkitSyncScheduler bukkitSyncScheduler;
     private final BukkitAsyncScheduler bukkitAsyncScheduler;
-
-    private final int bookSlot = CookingGUIConfig.getBookSlot();
-    private final int closeSlot = CookingGUIConfig.getButtonSlot("close");
-    private final int startSlot = CookingGUIConfig.getButtonSlot("start");
 
     private static final Set<InventoryAction> VALID_ACTIONS = Set.of(
             InventoryAction.PLACE_ALL,

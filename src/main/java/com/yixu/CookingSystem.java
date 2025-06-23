@@ -11,12 +11,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CookingSystem extends JavaPlugin {
 
+    private static CookingSystem instance;
+
     public CookingSystem() {
         super();
     }
 
     @Override
     public void onEnable() {
+        instance = this;
+
         saveDefaultConfig();
 
         BukkitSyncScheduler bukkitSyncScheduler = new BukkitSyncScheduler();
@@ -40,4 +44,9 @@ public final class CookingSystem extends JavaPlugin {
     public void onDisable() {
         getLogger().info("YiXu-CookingSystem 插件已卸载！");
     }
+
+    public static CookingSystem getInstance() {
+        return instance;
+    }
+
 }

@@ -4,11 +4,15 @@ import com.yixu.Config.CookingConfig.ConfigConfig;
 import com.yixu.GUI.CookingGUI.CookingGUI;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.Util.Message.MessageUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 public class CustomBlockInteractEvent implements Listener {
@@ -51,6 +55,7 @@ public class CustomBlockInteractEvent implements Listener {
 
             cookingGUIManager.setUsed(location, true);
             cookingGUIManager.setCookingTableLocation(player.getUniqueId(), location);
+
         }
     }
 

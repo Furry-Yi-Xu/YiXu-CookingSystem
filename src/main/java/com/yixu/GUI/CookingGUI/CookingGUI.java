@@ -1,5 +1,6 @@
 package com.yixu.GUI.CookingGUI;
 
+import com.yixu.Builder.GUI.CookingGuiLayoutBuilder;
 import com.yixu.Config.ConfigManager;
 import com.yixu.Config.CookingConfig.CookingGUIConfig;
 import com.yixu.GUI.Holder.CookingGUIHolder;
@@ -17,23 +18,11 @@ import java.util.List;
 
 public class CookingGUI implements Listener {
 
-    private static final List<String> buttonKeys = List.of("close", "start");
-
     public void openCookingGUI(Player player) {
 
-        String cookingGUITitle = ConfigManager.getGuiConfig().getConfig().getString("cooking_title");
-        Component formattedTitle = ComponentUtil.formatString(cookingGUITitle);
+        CookingGuiLayoutBuilder cookingGuiLayoutBuilder = new CookingGuiLayoutBuilder();
 
-        Inventory cookingGUI = Bukkit.createInventory(new CookingGUIHolder(), 54, formattedTitle);
-
-        for (int i = 0; i < buttonKeys.size(); i++) {
-            String buttonType = CookingGUIConfig.getButtonType(buttonKeys.get(i));
-            String buttonMaterial = CookingGUIConfig.getButtonMaterial(buttonKeys.get(i));
-            int buttonSlot = CookingGUIConfig.getButtonSlot(buttonKeys.get(i));
-
-            ItemStack itemStack = ItemStackResolver.getItemStack(buttonType, buttonMaterial);
-            cookingGUI.setItem(buttonSlot, itemStack);
-        }
+        Inventory cookingGUI = cookingGuiLayoutBuilder.buildCookingGUILayout(player);
 
         player.openInventory(cookingGUI);
     }

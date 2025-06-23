@@ -1,12 +1,15 @@
 package com.yixu.Util.Item;
 
 import com.yixu.Config.ConfigManager;
+import com.yixu.Config.CookingConfig.CookingGUIConfig;
 import com.yixu.Model.RecipeIngredientModel;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Set;
 
 public class IngredientItemDisplayer {
 
@@ -14,11 +17,9 @@ public class IngredientItemDisplayer {
 
         ItemStack itemStack = null;
 
-        List<Integer> ingredientSlots = ConfigManager.getGuiConfig().getConfig().getIntegerList("ingredient_slots");
+        int slotIndex = 0;
 
-        for (int i = 0; i < recipeIngredientsListModel.size(); i++) {
-
-            RecipeIngredientModel recipeIngredientModel = recipeIngredientsListModel.get(i);
+        for (RecipeIngredientModel recipeIngredientModel : recipeIngredientsListModel) {
 
             String ingredientType = recipeIngredientModel.getType();
             String ingredientMaterial = recipeIngredientModel.getMaterial();
@@ -28,10 +29,10 @@ public class IngredientItemDisplayer {
 
             itemStack.setAmount(ingredientAmount);
 
-            if (itemStack != null) {
-                int slot = ingredientSlots.get(i);
-                inventoryView.setItem(slot, itemStack);
-            }
+            int ingredientSlot = CookingGUIConfig.getButtonSlot("ingredient_" + (slotIndex + 1));
+            inventoryView.setItem(ingredientSlot, itemStack);
+
+            slotIndex++;
         }
     }
 }
