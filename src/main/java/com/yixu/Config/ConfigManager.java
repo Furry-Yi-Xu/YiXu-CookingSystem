@@ -10,6 +10,7 @@ public class ConfigManager {
     private static BaseConfig recipeConfig;
     private static BaseConfig guiConfig;
     private static BaseConfig soundsConfig;
+    private static BaseConfig potConfig;
 
     public static void init(Plugin plugin) {
         configConfig = new BaseConfig(plugin, "config.yml");
@@ -17,6 +18,7 @@ public class ConfigManager {
         recipeConfig = new BaseConfig(plugin, "recipes.yml");
         guiConfig = new BaseConfig(plugin, "gui.yml");
         soundsConfig = new BaseConfig(plugin, "sounds.yml");
+        potConfig = new BaseConfig(plugin, "pot.yml");
     }
 
     public static BaseConfig getMessagesConfig() {
@@ -39,11 +41,16 @@ public class ConfigManager {
         return soundsConfig;
     }
 
+    public static BaseConfig getPotConfig() {
+        return potConfig;
+    }
+
     public static void reloadAll() {
         configConfig.reload();
         messagesConfig.reload();
         recipeConfig.reload();
         guiConfig.reload();
         soundsConfig.reload();
+        potConfig.reload();
     }
 }

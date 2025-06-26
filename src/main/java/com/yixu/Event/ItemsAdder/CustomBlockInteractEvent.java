@@ -1,19 +1,22 @@
 package com.yixu.Event.ItemsAdder;
 
 import com.yixu.Config.CookingConfig.ConfigConfig;
+import com.yixu.Config.CookingConfig.PotConfig;
 import com.yixu.GUI.CookingGUI.CookingGUI;
 import com.yixu.GUI.CookingGUIManager;
+import com.yixu.Util.Hologram.DecentHologram;
 import com.yixu.Util.Message.MessageUtil;
-import org.bukkit.Bukkit;
+import com.yixu.Util.Animation.CookingFireAnimation;
+import eu.decentsoftware.holograms.api.DHAPI;
+import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+
+import java.util.List;
 
 public class CustomBlockInteractEvent implements Listener {
 
@@ -26,7 +29,7 @@ public class CustomBlockInteractEvent implements Listener {
     }
 
     @EventHandler
-    public void onCustomBlockInteract(dev.lone.itemsadder.api.Events.CustomBlockInteractEvent event) {
+    public void onCustomBlockInteract(dev.lone.itemsadder.api.Events.CustomBlockInteractEvent event) throws InterruptedException {
 
 
         Action action = event.getAction();
@@ -49,7 +52,18 @@ public class CustomBlockInteractEvent implements Listener {
             return;
         }
 
-        if (namespacedID.equals(ConfigConfig.getCookingTableName())) {
+        if (namespacedID.equals(PotConfig.getCookingTableName())) {
+
+            String hologram = DecentHologram.getHologram(location);
+
+            if (DHAPI.getHologram(hologram) == null) {
+                List<String> hologramLines = PotConfig.getCookingTableHologramLines();
+
+                List<Double> hologramOffset = PotConfig.getCookingTableHologramOffset();
+
+                DecentHologram.getHologram(location, hologramOffset, hologramLines, false);
+            }
+
             CookingGUI cookingGUI = new CookingGUI();
             cookingGUI.openCookingGUI(player);
 

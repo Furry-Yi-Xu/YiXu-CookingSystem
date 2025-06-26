@@ -1,6 +1,7 @@
 package com.yixu.Event.ItemsAdder;
 
 import com.yixu.Config.CookingConfig.ConfigConfig;
+import com.yixu.Config.CookingConfig.PotConfig;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.Util.Hologram.DecentHologram;
 import eu.decentsoftware.holograms.api.DHAPI;
@@ -26,18 +27,16 @@ public class CustomBlockPlaceEvent implements Listener {
 
         String namespacedID = event.getNamespacedID();
 
-        if (namespacedID.equals(ConfigConfig.getCookingTableName())) {
+        if (namespacedID.equals(PotConfig.getCookingTableName())) {
 
             Location location = event.getBlock().getLocation();
 
-            List<Double> hologramOffset = ConfigConfig.getCookingTableHologramOffset();
-            List<String> hologramLines = ConfigConfig.getCookingTableHologramLines();
+            List<String> hologramLines = PotConfig.getCookingTableHologramLines();
 
-            Hologram hologram = DecentHologram.getHologram(location, hologramOffset, true);
+            List<Double> hologramOffset = PotConfig.getCookingTableHologramOffset();
 
-            for (int i = 0; i < hologramLines.size(); i++) {
-                DHAPI.addHologramLine(hologram, hologramLines.get(i));
-            }
+            DecentHologram.getHologram(location, hologramOffset, hologramLines, false);
+
         }
     }
 }

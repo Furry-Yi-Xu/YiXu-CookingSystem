@@ -3,6 +3,7 @@ package com.yixu.Event.CookingGUI;
 import com.yixu.Config.ConfigManager;
 import com.yixu.Config.CookingConfig.ConfigConfig;
 import com.yixu.Config.CookingConfig.CookingGUIConfig;
+import com.yixu.Config.CookingConfig.PotConfig;
 import com.yixu.CookingSystem;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.GUI.Holder.CookingGUIHolder;
@@ -181,7 +182,7 @@ public class ClickCookingGUIEvent implements Listener {
         String hologramName = DecentHologram.getHologram(guiLocation);
         Hologram hologram = DHAPI.getHologram(hologramName);
 
-        List<String> hologramLines = ConfigConfig.getCookingTableHologramLines();
+        List<String> hologramLines = PotConfig.getCookingTableHologramLines();
         String replacedLines = hologramLines.get(1).replace("无", recipeName);
 
         DHAPI.setHologramLine(hologram, 1, replacedLines);
@@ -189,6 +190,7 @@ public class ClickCookingGUIEvent implements Listener {
         MessageUtil.sendMessage(player, "cooking.cooking_started");
 
         cookingGUIManager.setWorking(guiLocation, true);
+
         event.setCancelled(true);
         event.getInventory().close();
     }

@@ -1,6 +1,7 @@
 package com.yixu.Event.ItemsAdder;
 
 import com.yixu.Config.CookingConfig.ConfigConfig;
+import com.yixu.Config.CookingConfig.PotConfig;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.Util.Hologram.DecentHologram;
 import com.yixu.Util.Message.MessageUtil;
@@ -40,7 +41,7 @@ public class CustomBlockBreakEvent implements Listener {
 
         String namespacedID = event.getNamespacedID();
 
-        if (namespacedID.equals(ConfigConfig.getCookingTableName())) {
+        if (namespacedID.equals(PotConfig.getCookingTableName())) {
 
             Location location = event.getBlock().getLocation();
 
