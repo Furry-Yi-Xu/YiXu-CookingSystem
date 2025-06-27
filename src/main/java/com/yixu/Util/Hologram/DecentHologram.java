@@ -3,7 +3,9 @@ package com.yixu.Util.Hologram;
 import com.yixu.Config.CookingConfig.PotConfig;
 import eu.decentsoftware.holograms.api.DHAPI;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class DecentHologram {
         return hologramName;
     }
 
-    public static Hologram getHologram(Location location, List<Double> hologramOffset, List<String> hologramLines, boolean isSaveToFile) {
+    public static Hologram getHologram(Location location, List<Double> hologramOffset, List<Object> hologramLines, boolean isSaveToFile) {
 
         int X = (int) Math.round(location.getX());
         int Y = (int) Math.round(location.getY());
@@ -35,12 +37,22 @@ public class DecentHologram {
         return DHAPI.getHologram(hologramName);
     }
 
-    public static void createHologram(Location location, String hologramName, List<Double> hologramOffset, List<String> hologramLines, boolean isSaveToFile) {
+    public static void createHologram(Location location, String hologramName, List<Double> hologramOffset, List<Object> hologramLines, boolean isSaveToFile) {
         Location offsetLocation = location.clone().add(hologramOffset.get(0), hologramOffset.get(1), hologramOffset.get(2));
         Hologram hologram = DHAPI.createHologram(hologramName, offsetLocation, isSaveToFile);
         hologram.setAlwaysFacePlayer(true);
         for (int i = 0; i < hologramLines.size(); i++) {
-            DHAPI.addHologramLine(hologram, hologramLines.get(i));
+
+            Object line = hologramLines.get(i);
+
+            if (line instanceof String text) {
+                DHAPI.addHologramLine(hologram, text);
+            }
+
+            if (line instanceof ItemStack itemStack) {
+                DHAPI.addHologramLine(hologram, itemStack);
+            }
+
         }
     }
 }

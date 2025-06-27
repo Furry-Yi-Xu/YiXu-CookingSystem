@@ -1,9 +1,12 @@
 package com.yixu.Event.ItemsAdder;
 
+import com.yixu.Builder.Recipe.RecipeMaterialMapBuilder;
 import com.yixu.Config.CookingConfig.ConfigConfig;
 import com.yixu.Config.CookingConfig.PotConfig;
+import com.yixu.Config.CookingConfig.RecipeConfig;
 import com.yixu.GUI.CookingGUI.CookingGUI;
 import com.yixu.GUI.CookingGUIManager;
+import com.yixu.Processor.MaterialInputProcessor;
 import com.yixu.Util.Hologram.DecentHologram;
 import com.yixu.Util.Message.MessageUtil;
 import com.yixu.Util.Animation.CookingFireAnimation;
@@ -52,12 +55,26 @@ public class CustomBlockInteractEvent implements Listener {
             return;
         }
 
+        MaterialInputProcessor materialInputProcessor = new MaterialInputProcessor(
+                player,
+                location,
+                "金属药剂",
+                new RecipeMaterialMapBuilder().buildMaterialMap("金属药剂"),
+                new RecipeConfig("金属药剂").getRecipeCookingTime()
+        );
+
+        materialInputProcessor.displayPutCookingIngredient();
+
+        if (true) {
+            return;
+        }
+
         if (namespacedID.equals(PotConfig.getCookingTableName())) {
 
             String hologram = DecentHologram.getHologram(location);
 
             if (DHAPI.getHologram(hologram) == null) {
-                List<String> hologramLines = PotConfig.getCookingTableHologramLines();
+                List<Object> hologramLines = PotConfig.getCookingTableHologramLines();
 
                 List<Double> hologramOffset = PotConfig.getCookingTableHologramOffset();
 

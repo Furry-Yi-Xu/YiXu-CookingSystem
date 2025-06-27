@@ -6,8 +6,11 @@ import com.yixu.Config.ConfigManager;
 import com.yixu.Event.EventManager;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.Scheduler.BukkitAsyncScheduler;
-import com.yixu.Scheduler.BukkitSyncScheduler;
+import com.yixu.Scheduler.CookingTaskSyncScheduler;
+import com.yixu.Util.Language.ItemNameTranslator;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.FileNotFoundException;
 
 public final class CookingSystem extends JavaPlugin {
 
@@ -18,21 +21,26 @@ public final class CookingSystem extends JavaPlugin {
     }
 
     @Override
-    public void onEnable() {
+    public void onEnable(){
         instance = this;
 
         saveDefaultConfig();
 
-        BukkitSyncScheduler bukkitSyncScheduler = new BukkitSyncScheduler();
+        CookingTaskSyncScheduler cookingTaskSyncScheduler = new CookingTaskSyncScheduler();
         BukkitAsyncScheduler bukkitAsyncScheduler = new BukkitAsyncScheduler();
 
-        bukkitSyncScheduler.runTaskTimer(this, 0, 20L);
+        cookingTaskSyncScheduler.runTaskTimer(this, 0, 20L);
         bukkitAsyncScheduler.runTaskTimer(this, 0, 20L);
 
         CookingGUIManager cookingGUIManager = new CookingGUIManager();
 
-        ConfigManager.init(this);
-        EventManager.init(this, cookingGUIManager, bukkitSyncScheduler, bukkitAsyncScheduler);
+        try {
+            ConfigManager.init(this);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        EventManager.init(this, cookingGUIManager, cookingTaskSyncScheduler, bukkitAsyncScheduler);
+
 
         getCommand("yixu-cookingsystem").setExecutor(new CommandManager());
         getCommand("yixu-cookingsystem").setTabCompleter(new MainTabCompleter());

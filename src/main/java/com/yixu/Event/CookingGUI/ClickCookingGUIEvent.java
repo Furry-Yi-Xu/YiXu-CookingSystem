@@ -1,26 +1,18 @@
 package com.yixu.Event.CookingGUI;
 
 import com.yixu.Config.ConfigManager;
-import com.yixu.Config.CookingConfig.ConfigConfig;
 import com.yixu.Config.CookingConfig.CookingGUIConfig;
-import com.yixu.Config.CookingConfig.PotConfig;
-import com.yixu.CookingSystem;
 import com.yixu.GUI.CookingGUIManager;
 import com.yixu.GUI.Holder.CookingGUIHolder;
 import com.yixu.Model.RecipeIngredientModel;
 import com.yixu.Scheduler.BukkitAsyncScheduler;
-import com.yixu.Scheduler.BukkitSyncScheduler;
-import com.yixu.Util.Hologram.DecentHologram;
+import com.yixu.Scheduler.CookingTaskSyncScheduler;
 import com.yixu.Util.Item.RecipeBookNameProvider;
 import com.yixu.Util.Item.IngredientItemDisplayer;
 import com.yixu.Util.Message.MessageUtil;
 import com.yixu.Builder.Recipe.RecipeMaterialMapBuilder;
-import com.yixu.Util.PersistentDataContainer.PersistentDataContainer;
-import eu.decentsoftware.holograms.api.DHAPI;
-import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,7 +21,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
@@ -44,7 +35,7 @@ public class ClickCookingGUIEvent implements Listener {
     private final int closeSlot = CookingGUIConfig.getButtonSlot("Close");
     private final int startSlot = CookingGUIConfig.getButtonSlot("Start");
 
-    private final BukkitSyncScheduler bukkitSyncScheduler;
+    private final CookingTaskSyncScheduler cookingTaskSyncScheduler;
     private final BukkitAsyncScheduler bukkitAsyncScheduler;
 
     private static final Set<InventoryAction> VALID_ACTIONS = Set.of(
@@ -55,12 +46,12 @@ public class ClickCookingGUIEvent implements Listener {
     public ClickCookingGUIEvent(
             Plugin plugin,
             CookingGUIManager cookingGUIManager,
-            BukkitSyncScheduler bukkitSyncScheduler,
+            CookingTaskSyncScheduler cookingTaskSyncScheduler,
             BukkitAsyncScheduler bukkitAsyncScheduler
     ) {
         this.plugin = plugin;
         this.cookingGUIManager = cookingGUIManager;
-        this.bukkitSyncScheduler = bukkitSyncScheduler;
+        this.cookingTaskSyncScheduler = cookingTaskSyncScheduler;
         this.bukkitAsyncScheduler = bukkitAsyncScheduler;
     }
 
@@ -178,14 +169,6 @@ public class ClickCookingGUIEvent implements Listener {
             itemMeta.setDamage(newDurability);
             recipeBook.setItemMeta(itemMeta);
         }
-
-        String hologramName = DecentHologram.getHologram(guiLocation);
-        Hologram hologram = DHAPI.getHologram(hologramName);
-
-        List<String> hologramLines = PotConfig.getCookingTableHologramLines();
-        String replacedLines = hologramLines.get(1).replace("无", recipeName);
-
-        DHAPI.setHologramLine(hologram, 1, replacedLines);
 
         MessageUtil.sendMessage(player, "cooking.cooking_started");
 

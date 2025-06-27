@@ -52,4 +52,10 @@ public class RecipeConfig {
                 .getString(path + "amount");
     }
 
+    public int getRecipeCookingTime() {
+        return ConfigManager.getRecipeConfig()
+                .getConfig()
+                .getInt(path + "cooking.cooking_time");
+    }
+
 }

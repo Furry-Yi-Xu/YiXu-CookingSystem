@@ -31,7 +31,7 @@ public class CustomBlockPlaceEvent implements Listener {
 
             Location location = event.getBlock().getLocation();
 
-            List<String> hologramLines = PotConfig.getCookingTableHologramLines();
+            List<Object> hologramLines = PotConfig.getCookingTableHologramLines();
 
             List<Double> hologramOffset = PotConfig.getCookingTableHologramOffset();
 
