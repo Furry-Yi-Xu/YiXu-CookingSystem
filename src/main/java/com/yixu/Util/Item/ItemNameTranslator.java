@@ -1,4 +1,4 @@
-package com.yixu.Util.Language;
+package com.yixu.Util.Item;
 
 import com.yixu.Config.ConfigManager;
 import org.bukkit.inventory.ItemStack;
@@ -6,8 +6,7 @@ import org.bukkit.inventory.ItemStack;
 public class ItemNameTranslator {
 
     public static String getItemName(ItemStack itemStack) {
-        String translationKey = itemStack.translationKey();
-        return ConfigManager.getItemJson().getJsonValue(translationKey);
+        return ConfigManager.getItemJson().getJsonValue(itemStack.getType().toString());
     }
 
 }

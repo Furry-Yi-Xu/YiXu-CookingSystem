@@ -4,19 +4,19 @@
   ingredient_1:
     type: "itemsadder"
     material: "customcrops:cabbage"
-    amount: 1
+    amount: 8
   ingredient_2:
     type: "minecraft"
     material: "red_mushroom_block"
-    amount: 1
+    amount: 16
   ingredient_3:
     type: "itemsadder"
     material: "customcrops:eggplant"
-    amount: 1
+    amount: 32
   ingredient_4:
     type: "itemsadder"
     material: "customcrops:pineapple"
-    amount: 1
+    amount: 64
   recipe_book:
     stamina: 2
   result:

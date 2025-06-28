@@ -1,20 +1,15 @@
 package com.yixu.Builder.GUI;
 
 import com.yixu.Config.CookingConfig.CookingGUIConfig;
-import com.yixu.CookingSystem;
-import com.yixu.GUI.Holder.CookingGUIHolder;
+import com.yixu.CookingPot.Holder.CookingGUIHolder;
 import com.yixu.Util.Message.ComponentUtil;
-import com.yixu.Util.PersistentDataContainer.PersistentDataContainer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 import java.util.Set;

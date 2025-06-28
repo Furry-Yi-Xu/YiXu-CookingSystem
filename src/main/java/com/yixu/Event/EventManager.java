@@ -1,12 +1,14 @@
 package com.yixu.Event;
 
+import com.yixu.CookingPot.CookingPotManager;
 import com.yixu.Event.CookingGUI.ClickCookingGUIEvent;
 import com.yixu.Event.CookingGUI.CloseCookingGUIEvent;
 import com.yixu.Event.CookingGUI.DragCookingGUIEvent;
 import com.yixu.Event.ItemsAdder.CustomBlockBreakEvent;
 import com.yixu.Event.ItemsAdder.CustomBlockInteractEvent;
 import com.yixu.Event.ItemsAdder.CustomBlockPlaceEvent;
-import com.yixu.GUI.CookingGUIManager;
+import com.yixu.CookingPot.CookingGUIManager;
+import com.yixu.Model.CookingPotModel;
 import com.yixu.Scheduler.BukkitAsyncScheduler;
 import com.yixu.Scheduler.CookingTaskSyncScheduler;
 import org.bukkit.plugin.Plugin;
@@ -17,16 +19,17 @@ public class EventManager {
     public static void init(
             Plugin plugin,
             CookingGUIManager cookingGUIManager,
+            CookingPotManager cookingPotManager,
             CookingTaskSyncScheduler cookingTaskSyncScheduler,
             BukkitAsyncScheduler bukkitAsyncScheduler
     ) {
         PluginManager pluginManager = plugin.getServer().getPluginManager();
 
-        pluginManager.registerEvents(new CustomBlockInteractEvent(plugin, cookingGUIManager), plugin);
+        pluginManager.registerEvents(new CustomBlockInteractEvent(plugin, cookingGUIManager, cookingPotManager), plugin);
         pluginManager.registerEvents(new CustomBlockBreakEvent(plugin, cookingGUIManager), plugin);
         pluginManager.registerEvents(new CustomBlockPlaceEvent(plugin), plugin);
 
-        pluginManager.registerEvents(new ClickCookingGUIEvent(plugin, cookingGUIManager, cookingTaskSyncScheduler, bukkitAsyncScheduler), plugin);
+        pluginManager.registerEvents(new ClickCookingGUIEvent(plugin, cookingGUIManager, cookingPotManager, cookingTaskSyncScheduler, bukkitAsyncScheduler), plugin);
         pluginManager.registerEvents(new DragCookingGUIEvent(plugin), plugin);
         pluginManager.registerEvents(new CloseCookingGUIEvent(plugin, cookingGUIManager), plugin);
     }

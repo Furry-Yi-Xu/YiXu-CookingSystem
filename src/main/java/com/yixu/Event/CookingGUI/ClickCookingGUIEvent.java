@@ -2,9 +2,12 @@ package com.yixu.Event.CookingGUI;
 
 import com.yixu.Config.ConfigManager;
 import com.yixu.Config.CookingConfig.CookingGUIConfig;
-import com.yixu.GUI.CookingGUIManager;
-import com.yixu.GUI.Holder.CookingGUIHolder;
+import com.yixu.CookingPot.CookingGUIManager;
+import com.yixu.CookingPot.CookingPotManager;
+import com.yixu.CookingPot.Holder.CookingGUIHolder;
+import com.yixu.Model.CookingPotModel;
 import com.yixu.Model.RecipeIngredientModel;
+import com.yixu.Processor.MaterialInputProcessor;
 import com.yixu.Scheduler.BukkitAsyncScheduler;
 import com.yixu.Scheduler.CookingTaskSyncScheduler;
 import com.yixu.Util.Item.RecipeBookNameProvider;
@@ -30,6 +33,7 @@ public class ClickCookingGUIEvent implements Listener {
 
     private final Plugin plugin;
     private final CookingGUIManager cookingGUIManager;
+    private final CookingPotManager cookingPotManager;
 
     private final int bookSlot = CookingGUIConfig.getButtonSlot("Book");
     private final int closeSlot = CookingGUIConfig.getButtonSlot("Close");
@@ -46,11 +50,13 @@ public class ClickCookingGUIEvent implements Listener {
     public ClickCookingGUIEvent(
             Plugin plugin,
             CookingGUIManager cookingGUIManager,
+            CookingPotManager cookingPotManager,
             CookingTaskSyncScheduler cookingTaskSyncScheduler,
             BukkitAsyncScheduler bukkitAsyncScheduler
     ) {
         this.plugin = plugin;
         this.cookingGUIManager = cookingGUIManager;
+        this.cookingPotManager = cookingPotManager;
         this.cookingTaskSyncScheduler = cookingTaskSyncScheduler;
         this.bukkitAsyncScheduler = bukkitAsyncScheduler;
     }
@@ -171,6 +177,16 @@ public class ClickCookingGUIEvent implements Listener {
         }
 
         MessageUtil.sendMessage(player, "cooking.cooking_started");
+
+        CookingPotModel cookingPotModel = new CookingPotModel(guiLocation, player.getUniqueId(), recipeName);
+
+        MaterialInputProcessor materialInputProcessor = new MaterialInputProcessor(cookingPotModel);
+
+        cookingPotModel.setInputProcessor(materialInputProcessor);
+
+        materialInputProcessor.displayPutCookingIngredient();
+
+        cookingPotManager.setCookingPotModelMap(guiLocation, cookingPotModel);
 
         cookingGUIManager.setWorking(guiLocation, true);
 

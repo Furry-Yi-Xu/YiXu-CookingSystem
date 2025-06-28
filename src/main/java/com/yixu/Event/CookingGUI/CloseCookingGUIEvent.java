@@ -1,11 +1,7 @@
 package com.yixu.Event.CookingGUI;
 
-import com.yixu.Config.ConfigManager;
-import com.yixu.GUI.CookingGUIManager;
-import com.yixu.GUI.Holder.CookingGUIHolder;
-import com.yixu.Util.Message.MessageUtil;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
+import com.yixu.CookingPot.CookingGUIManager;
+import com.yixu.CookingPot.Holder.CookingGUIHolder;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;

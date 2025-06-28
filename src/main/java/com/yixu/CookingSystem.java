@@ -3,11 +3,11 @@ package com.yixu;
 import com.yixu.Command.CommandManager;
 import com.yixu.Command.MainCommand.MainTabCompleter;
 import com.yixu.Config.ConfigManager;
+import com.yixu.CookingPot.CookingPotManager;
 import com.yixu.Event.EventManager;
-import com.yixu.GUI.CookingGUIManager;
+import com.yixu.CookingPot.CookingGUIManager;
 import com.yixu.Scheduler.BukkitAsyncScheduler;
 import com.yixu.Scheduler.CookingTaskSyncScheduler;
-import com.yixu.Util.Language.ItemNameTranslator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.FileNotFoundException;
@@ -33,13 +33,14 @@ public final class CookingSystem extends JavaPlugin {
         bukkitAsyncScheduler.runTaskTimer(this, 0, 20L);
 
         CookingGUIManager cookingGUIManager = new CookingGUIManager();
+        CookingPotManager cookingPotManager = new CookingPotManager();
 
         try {
             ConfigManager.init(this);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        EventManager.init(this, cookingGUIManager, cookingTaskSyncScheduler, bukkitAsyncScheduler);
+        EventManager.init(this, cookingGUIManager, cookingPotManager, cookingTaskSyncScheduler, bukkitAsyncScheduler);
 
 
         getCommand("yixu-cookingsystem").setExecutor(new CommandManager());

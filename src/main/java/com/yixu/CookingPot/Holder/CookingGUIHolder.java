@@ -1,4 +1,4 @@
-package com.yixu.GUI.Holder;
+package com.yixu.CookingPot.Holder;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;

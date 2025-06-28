@@ -1,17 +1,14 @@
 package com.yixu.Event.ItemsAdder;
 
-import com.yixu.Builder.Recipe.RecipeMaterialMapBuilder;
-import com.yixu.Config.CookingConfig.ConfigConfig;
 import com.yixu.Config.CookingConfig.PotConfig;
-import com.yixu.Config.CookingConfig.RecipeConfig;
-import com.yixu.GUI.CookingGUI.CookingGUI;
-import com.yixu.GUI.CookingGUIManager;
+import com.yixu.CookingPot.CookingGUI.CookingGUI;
+import com.yixu.CookingPot.CookingGUIManager;
+import com.yixu.CookingPot.CookingPotManager;
+import com.yixu.Model.CookingPotModel;
 import com.yixu.Processor.MaterialInputProcessor;
 import com.yixu.Util.Hologram.DecentHologram;
 import com.yixu.Util.Message.MessageUtil;
-import com.yixu.Util.Animation.CookingFireAnimation;
 import eu.decentsoftware.holograms.api.DHAPI;
-import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,10 +22,12 @@ public class CustomBlockInteractEvent implements Listener {
 
     private final Plugin plugin;
     private final CookingGUIManager cookingGUIManager;
+    private final CookingPotManager cookingPotManager;
 
-    public CustomBlockInteractEvent(Plugin plugin, CookingGUIManager cookingGUIManager) {
+    public CustomBlockInteractEvent(Plugin plugin, CookingGUIManager cookingGUIManager, CookingPotManager cookingPotManager) {
         this.plugin = plugin;
         this.cookingGUIManager = cookingGUIManager;
+        this.cookingPotManager = cookingPotManager;
     }
 
     @EventHandler
@@ -51,21 +50,19 @@ public class CustomBlockInteractEvent implements Listener {
         }
 
         if (cookingGUIManager.isWorking(location)) {
+
+            CookingPotModel cookingPotModel = cookingPotManager.getCookingPotModelMap(location);
+
+            if (cookingPotModel.getBoundPlayer().equals(player.getUniqueId())) {
+
+                MaterialInputProcessor inputProcessor = cookingPotModel.getInputProcessor();
+
+                inputProcessor.matchedIngredientMaterial(player);
+
+                return;
+            }
+
             MessageUtil.sendMessage(player, "cooking.cooking_started");
-            return;
-        }
-
-        MaterialInputProcessor materialInputProcessor = new MaterialInputProcessor(
-                player,
-                location,
-                "金属药剂",
-                new RecipeMaterialMapBuilder().buildMaterialMap("金属药剂"),
-                new RecipeConfig("金属药剂").getRecipeCookingTime()
-        );
-
-        materialInputProcessor.displayPutCookingIngredient();
-
-        if (true) {
             return;
         }
 

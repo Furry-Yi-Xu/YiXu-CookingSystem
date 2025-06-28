@@ -1,10 +1,6 @@
 package com.yixu.Util.Item;
 
-import com.yixu.Util.Language.ItemNameTranslator;
 import dev.lone.itemsadder.api.CustomStack;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TranslatableComponent;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -56,5 +52,9 @@ public class ItemStackResolver {
 
     public static String getVanillaDisplayName(ItemStack itemStack) {
         return ItemNameTranslator.getItemName(itemStack);
+    }
+
+    public static String getIAItemNamespaceID(ItemStack itemStack) {
+        return CustomStack.byItemStack(itemStack).getNamespacedID();
     }
 }

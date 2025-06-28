@@ -1,6 +1,6 @@
 package com.yixu.Event.CookingGUI;
 
-import com.yixu.GUI.Holder.CookingGUIHolder;
+import com.yixu.CookingPot.Holder.CookingGUIHolder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryDragEvent;
