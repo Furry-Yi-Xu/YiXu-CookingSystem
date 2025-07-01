@@ -1,0 +1,59 @@
+gui:
+  title: "&a烹饪界面"
+  icons:
+    'Book':
+      display:
+        material: "air"
+        data: 0
+        name: ""
+        lore: [ ]
+        slot: 4
+
+    'Close':
+      display:
+        material: "paper"
+        data: 0
+        name: "&c关闭菜单"
+        lore:
+          - "这是一条测试lore"
+        slot: 7
+
+    'Start':
+      display:
+        material: "paper"
+        data: 0
+        name: "&b开始烹饪"
+        lore: [ ]
+        slot: 8
+
+    'ingredient_1':
+      display:
+        material: "air"
+        data: 0
+        name: ""
+        lore: [ ]
+        slot: 13
+
+    'ingredient_2':
+      display:
+        material: "air"
+        data: 0
+        name: ""
+        lore: [ ]
+        slot: 22
+
+    'ingredient_3':
+      display:
+        material: "air"
+        data: 0
+        name: ""
+        lore: [ ]
+        slot: 31
+
+    'ingredient_4':
+      display:
+        material: "air"
+        data: 0
+        name: ""
+        lore: [ ]
+        slot: 40

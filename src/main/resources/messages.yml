@@ -1,0 +1,23 @@
+prefix: "&7[&b烹饪系统&7] "
+
+commands:
+  no-permission: "&c你没有权限执行此命令！"
+  command-usage: "&c用法: /YiXu-CookingSystem"
+  unknown-message: "&c未找到消息 %message%"
+  reload:
+    reload-succeed: "&a配置已重新加载！"
+
+ingredient:
+  invalid_ingredient: "&c这不是正确的食材！"
+  invalid_amount: "&c食材数量不足，需要: %amount%"
+  ingredient_put_succeed: "&a成功投入食材！"
+
+cooking:
+  cooking_used: "&c烹饪台正在被其他玩家使用中！"
+  cooking_used_break: "&c不能破坏正在使用中的烹饪台！"
+  cooking_started: "&a烹饪正在进行中，请耐心等候！"
+  cooking_started_break: "&c不能破坏正在烹饪中的烹饪台！"
+  cooking_book_destroy: "&c该烹饪书耐久耗尽..."
+  invalid_book: "&c这不是有效的烹饪书！"
+  invalid_material: "&c缺少烹饪材料，请重试！"
+  insufficient_item: "&c缺少材料: &r%item%"

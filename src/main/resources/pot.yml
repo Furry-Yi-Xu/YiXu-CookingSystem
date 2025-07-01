@@ -1,0 +1,40 @@
+cooking_table:
+  material: "customcrops_earth_3:deepslate_starlight_ore"
+  hologram:
+    offset:
+      - 0.5
+      - 2.5
+      - 0.5
+    lines:
+      - "&6&l烹饪台"
+      - "&e烹饪食谱: &a无"
+      - "&e烹饪进度: &a0%"
+      - "[ 右键打开烹饪台 ]"
+
+cooking_ingredient:
+  hologram:
+    offset:
+      - 0.5
+      - 2.5
+      - 0.5
+    lines:
+      - "%material_itemstack%"
+      - "%material_name% x %material_amount%"
+      - "[ 右键投入烹饪食材 ]"
+
+cooking_process:
+  hologram:
+    offset:
+      - 0.5
+      - 4
+      - 0.5
+    lines:
+      - "&6&l烹饪台"
+      - "-----------------"
+      - "&e烹饪食谱: &a%recipe_name%"
+      - "&e烹饪进度: &a%recipe_progress%%"
+      - "&e剩余时间: &a%recipe_remaining%秒"
+      - "-----------------"
+      - "&e烹饪厨师: &a%player_name%"
+      - "-----------------"
+      - "[ 右键投入烹饪食材 ]"

@@ -1,0 +1,26 @@
+sound_setting:
+  cooking_table:
+    put_cooking_book:
+      name: "item.book.page_turn"
+      volume: 1
+      pitch: 1
+    take_cooking_book:
+      name: "item.book.page_turn"
+      volume: 1
+      pitch: 2
+    open_cooking_table:
+      name: "block.chest.open"
+      volume: 1
+      pitch: 1
+    close_cooking_table:
+      name: "block.chest.close"
+      volume: 1
+      pitch: 1
+    start_cooking:
+      name: "block.furnace.fire_crackle"
+      volume: 1
+      pitch: 1
+    cooking_book_broken:
+      name: "item.shield.break"
+      volume: 1
+      pitch: 1
