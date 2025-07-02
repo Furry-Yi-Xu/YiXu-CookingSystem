@@ -4,8 +4,10 @@ import com.yixu.Builder.Recipe.RecipeMaterialMapBuilder;
 import com.yixu.Config.ConfigManager;
 import com.yixu.Config.CookingConfig.CookingGUIConfig;
 import com.yixu.Cooking.CookingSessionManager;
+import com.yixu.Cooking.CookingStateMachine;
 import com.yixu.CookingGUI.CookingGUIHolder;
 import com.yixu.Model.Cooking.CookingSession;
+import com.yixu.Model.Cooking.CookingState;
 import com.yixu.Model.Ingredient.RecipeIngredientModel;
 import com.yixu.Util.Item.IngredientItemDisplayer;
 import com.yixu.Util.Item.RecipeBookNameProvider;
@@ -96,9 +98,8 @@ public class ClickCookingGUIEvent implements Listener {
             }
 
             CookingSession playerSession = cookingSessionManager.getPlayerSession(player.getUniqueId());
-            Location playerSessionLocation = playerSession.getLocation();
 
-            startCooking(player, recipeBook, recipeName, playerSessionLocation, event);
+            startCooking(player, recipeBook, recipeName, playerSession, event);
         }
     }
 
@@ -137,7 +138,7 @@ public class ClickCookingGUIEvent implements Listener {
         ingredientItemDisplayer.displayItemInGUI(player, ingredients, recipeName, event.getView());
     }
 
-    private void startCooking(Player player, ItemStack recipeBook, String recipeName, Location guiLocation, InventoryClickEvent event) {
+    private void startCooking(Player player, ItemStack recipeBook, String recipeName, CookingSession playerSession, InventoryClickEvent event) {
         int stamina = ConfigManager.getRecipeConfig().getConfig().getInt(recipeName + ".recipe_book.stamina");
 
         ItemMeta meta = recipeBook.getItemMeta();
@@ -157,6 +158,15 @@ public class ClickCookingGUIEvent implements Listener {
             itemMeta.setDamage(newDurability);
             recipeBook.setItemMeta(itemMeta);
         }
+
+        Location location = playerSession.getLocation();
+        CookingSession cookingSession = cookingSessionManager.getSession(location);
+
+        cookingSession.setCookingState(CookingState.WAITING_FOR_INGREDIENTS);
+        cookingSession.setRecipeName(recipeName);
+
+        CookingStateMachine cookingStateMachine = new CookingStateMachine();
+        cookingStateMachine.handleEvent(location, cookingSessionManager);
 
         event.setCancelled(true);
         event.getInventory().close();

@@ -41,7 +41,7 @@ public class CookingSessionManager {
         return activeSessions;
     }
 
-    public void setgetPlayerSession(UUID uuid, CookingSession cookingSession) {
+    public void setPlayerSession(UUID uuid, CookingSession cookingSession) {
         playerSession.put(uuid, cookingSession);
     }
 

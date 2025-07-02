@@ -5,14 +5,16 @@ import com.yixu.Cooking.CookingSessionManager;
 import com.yixu.Cooking.CookingStateMachine;
 import com.yixu.Model.Cooking.CookingSession;
 import com.yixu.Model.Cooking.CookingState;
+import com.yixu.Processor.IngredientInputProcessor;
 import com.yixu.Util.Hologram.DecentHologram;
 import com.yixu.Util.Message.MessageUtil;
+
 import eu.decentsoftware.holograms.api.DHAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,51 +30,60 @@ public class CustomBlockInteractEvent implements Listener {
     @EventHandler
     public void onCustomBlockInteractEvent(dev.lone.itemsadder.api.Events.CustomBlockInteractEvent event) {
 
-        Action action = event.getAction();
-
-        if (!action.isRightClick()) {
-            return;
-        }
-
-        Location location = event.getBlockClicked().getLocation();
-        Player player = event.getPlayer();
-        UUID playerUUID = player.getUniqueId();
-
-        if (!cookingSessionManager.hasSession(location)) {
-            cookingSessionManager.addSession(location, new CookingSession(location, CookingState.WAITING_FOR_RECIPE_BOOK, player));
-        }
-
-        UUID boundPlayer = cookingSessionManager.getSession(location).getBoundPlayer();
-
-        if (boundPlayer == null) {
-            cookingSessionManager.getSession(location).setBoundPlayer(playerUUID);
-            boundPlayer = cookingSessionManager.getSession(location).getBoundPlayer();
-        }
-
-        if (!playerUUID.equals(boundPlayer)) {
-            MessageUtil.sendMessage(player, "cooking.cooking_used");
+        if (!event.getAction().isRightClick()) {
             return;
         }
 
         String namespacedID = event.getNamespacedID();
 
-        if (namespacedID.equals(PotConfig.getCookingTableName())) {
+        if (!namespacedID.equals(PotConfig.getCookingTableName())) {
+            return;
+        }
 
-            String hologram = DecentHologram.getHologram(location);
+        Player player = event.getPlayer();
+        UUID playerUUID = player.getUniqueId();
 
-            if (DHAPI.getHologram(hologram) == null) {
+        Location location = event.getBlockClicked().getLocation();
+        String hologram = DecentHologram.getHologram(location);
 
-                List<Object> hologramLines = PotConfig.getCookingTableHologramLines();
+        if (DHAPI.getHologram(hologram) == null) {
 
-                List<Double> hologramOffset = PotConfig.getCookingTableHologramOffset();
+            List<Object> hologramLines = PotConfig.getCookingTableHologramLines();
 
-                DecentHologram.getHologram(location, hologramOffset, hologramLines, false);
+            List<Double> hologramOffset = PotConfig.getCookingTableHologramOffset();
+
+            DecentHologram.getHologram(location, hologramOffset, hologramLines, false);
+        }
+
+        CookingSession cookingSession = cookingSessionManager.getSession(location);
+        if (cookingSession == null) {
+            cookingSession = new CookingSession(location, CookingState.WAITING_FOR_RECIPE_BOOK, player);
+            cookingSessionManager.addSession(location, cookingSession);
+        }
+
+        if (cookingSession.getBoundPlayer() == null) {
+            cookingSession.setBoundPlayer(playerUUID);
+        }
+
+        if (cookingSession.getBoundPlayer() != playerUUID) {
+            MessageUtil.sendMessage(player, "cooking.cooking_used");
+            return;
+        }
+
+        if (cookingSession.getCookingState() == CookingState.WAITING_FOR_INGREDIENTS) {
+
+            IngredientInputProcessor ingredientInputProcessor = cookingSession.getIngredientInputProcessor();
+
+            if (ingredientInputProcessor != null) {
+                ingredientInputProcessor.matchedIngredientMaterial(player);
             }
 
-            CookingStateMachine cookingStateMachine = new CookingStateMachine();
-
-            cookingStateMachine.handleEvent(location, cookingSessionManager);
-
+            event.setCancelled(true);
+            return;
         }
+
+        CookingStateMachine stateMachine = new CookingStateMachine();
+        stateMachine.handleEvent(location, cookingSessionManager);
     }
+
 }

@@ -4,6 +4,7 @@ import com.yixu.Cooking.CookingSessionManager;
 import com.yixu.Event.CookingGUI.ClickCookingGUIEvent;
 import com.yixu.Event.CookingGUI.CloseCookingGUIEvent;
 import com.yixu.Event.CookingGUI.DragCookingGUIEvent;
+import com.yixu.Event.ItemsAdder.CustomBlockBreakEvent;
 import com.yixu.Event.ItemsAdder.CustomBlockInteractEvent;
 import com.yixu.Event.ItemsAdder.CustomBlockPlaceEvent;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class EventManager {
         PluginManager pluginManager = plugin.getServer().getPluginManager();
 
         pluginManager.registerEvents(new CustomBlockPlaceEvent(), plugin);
+        pluginManager.registerEvents(new CustomBlockBreakEvent(cookingSessionManager), plugin);
         pluginManager.registerEvents(new CustomBlockInteractEvent(cookingSessionManager), plugin);
 
         pluginManager.registerEvents(new DragCookingGUIEvent(), plugin);

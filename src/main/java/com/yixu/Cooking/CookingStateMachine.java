@@ -3,6 +3,7 @@ package com.yixu.Cooking;
 import com.yixu.CookingGUI.CookingGUI;
 import com.yixu.Model.Cooking.CookingSession;
 import com.yixu.Model.Cooking.CookingState;
+import com.yixu.Processor.IngredientInputProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -19,6 +20,9 @@ public class CookingStateMachine {
             case WAITING_FOR_RECIPE_BOOK:
                 handleRecipeBook(location, cookingSessionManager);
                 break;
+            case WAITING_FOR_INGREDIENTS:
+                handleIngredient(location, cookingSessionManager);
+                break;
         }
 
     }
@@ -28,10 +32,22 @@ public class CookingStateMachine {
         UUID playerUUID = cookingSessionManager.getSessionPlayer(location);
         Player player = Bukkit.getPlayer(playerUUID);
 
-        cookingSessionManager.setgetPlayerSession(playerUUID, cookingSessionManager.getSession(location));
+        cookingSessionManager.setPlayerSession(playerUUID, cookingSessionManager.getSession(location));
 
         CookingGUI cookingGUI = new CookingGUI();
         cookingGUI.openCookingGUI(player);
+
+    }
+
+    public void handleIngredient(Location location, CookingSessionManager cookingSessionManager) {
+
+        CookingSession cookingSession = cookingSessionManager.getSession(location);
+
+        IngredientInputProcessor ingredientInputProcessor = new IngredientInputProcessor(location, cookingSessionManager);
+
+        cookingSession.setIngredientInputProcessor(ingredientInputProcessor);
+
+        ingredientInputProcessor.displayPutCookingIngredient();
 
     }
 
