@@ -1,6 +1,8 @@
 package com.yixu.Model.Cooking;
 
+import com.yixu.Processor.IngredientInputHologramProcessor;
 import com.yixu.Processor.IngredientInputProcessor;
+import com.yixu.Task.HologramCountDownTask;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -12,8 +14,9 @@ public class CookingSession {
     private UUID boundPlayer;
     private CookingState cookingState;
 
-    private IngredientInputProcessor ingredientInputProcessor;
     private String recipeName;;
+    private IngredientInputProcessor ingredientInputProcessor;
+    private HologramCountDownTask hologramCountDownTask;
 
     public CookingSession(Location location, CookingState cookingState, Player player) {
         this.location = location;
@@ -41,6 +44,14 @@ public class CookingSession {
         this.cookingState = cookingState;
     }
 
+    public String getRecipeName() {
+        return recipeName;
+    }
+
+    public void setRecipeName(String recipeName) {
+        this.recipeName = recipeName;
+    }
+
     public IngredientInputProcessor getIngredientInputProcessor() {
         return ingredientInputProcessor;
     }
@@ -49,11 +60,11 @@ public class CookingSession {
         this.ingredientInputProcessor = ingredientInputProcessor;
     }
 
-    public String getRecipeName() {
-        return recipeName;
+    public HologramCountDownTask getHologramCountDownTask() {
+        return hologramCountDownTask;
     }
 
-    public void setRecipeName(String recipeName) {
-        this.recipeName = recipeName;
+    public void setHologramCountDownTask(HologramCountDownTask hologramCountDownTask) {
+        this.hologramCountDownTask = hologramCountDownTask;
     }
 }

@@ -2,9 +2,14 @@ package com.yixu.Processor;
 
 import com.yixu.Builder.Recipe.RecipeMaterialMapBuilder;
 import com.yixu.Config.CookingConfig.PotConfig;
+import com.yixu.Config.CookingConfig.RecipeConfig;
 import com.yixu.Cooking.CookingSessionManager;
+import com.yixu.CookingSystem;
 import com.yixu.Model.Cooking.CookingSession;
+import com.yixu.Model.Cooking.CookingState;
 import com.yixu.Model.Ingredient.RecipeIngredientModel;
+import com.yixu.Scheduler.CookingTaskSyncScheduler;
+import com.yixu.Task.HologramCountDownTask;
 import com.yixu.Util.Hologram.DecentHologram;
 import com.yixu.Util.Item.ItemStackResolver;
 import eu.decentsoftware.holograms.api.DHAPI;
@@ -22,6 +27,7 @@ import java.util.List;
 public class IngredientInputProcessor {
 
     protected final String recipeName;
+    protected final RecipeConfig recipeConfig;
     protected int currentPutItemStep;
     protected final List<RecipeIngredientModel> recipeIngredientModelList;
 
@@ -39,6 +45,7 @@ public class IngredientInputProcessor {
 
         this.cookingSession = cookingSessionManager.getSession(location);
         this.recipeName = cookingSession.getRecipeName();
+        this.recipeConfig = new RecipeConfig(recipeName);
 
         List<RecipeIngredientModel> ingredientModelList = new RecipeMaterialMapBuilder().buildMaterialMap(recipeName);
         this.recipeIngredientModelList = shuffleIngredients(ingredientModelList);
@@ -53,14 +60,22 @@ public class IngredientInputProcessor {
             DHAPI.addHologramLine(hologram, "");
         }
 
+        CookingTaskSyncScheduler cookingTaskSyncScheduler = CookingSystem.getInstance().getCookingTaskSyncScheduler();
+
+        HologramCountDownTask hologramCountDownTask = new HologramCountDownTask(
+                cookingSession.getLocation(),
+                recipeConfig.getRecipeIngredientTime(),
+                hologram,
+                cookingSessionManager,
+                new IngredientInputHologramProcessor()
+        );
+
+        cookingTaskSyncScheduler.addTask(cookingSession.getLocation(), hologramCountDownTask);
+
+        cookingSession.setHologramCountDownTask(hologramCountDownTask);
     }
 
     public void displayPutCookingIngredient() {
-
-        if (currentPutItemStep >= recipeIngredientModelList.size()) {
-            Bukkit.broadcastMessage("§a成功放入所有的烹饪物品！");
-            return;
-        }
 
         RecipeIngredientModel ingredient = recipeIngredientModelList.get(currentPutItemStep);
 
@@ -149,6 +164,14 @@ public class IngredientInputProcessor {
         itemInHandMaterial.setAmount(itemInHandAmount - matchedAmount);
 
         currentPutItemStep++;
+
+        cookingSession.getHologramCountDownTask().setDuration(recipeConfig.getRecipeIngredientTime());
+
+        if (currentPutItemStep >= recipeIngredientModelList.size()) {
+            Bukkit.broadcastMessage("§a成功放入所有的烹饪物品！");
+            cookingSession.setCookingState(CookingState.QTE_ACTIVE);
+            return;
+        }
 
         displayPutCookingIngredient();
 

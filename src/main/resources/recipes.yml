@@ -1,22 +1,23 @@
 金属药剂:
   cooking:
+    ingredient_time: 15
     cooking_time: 30
   ingredient_1:
     type: "itemsadder"
     material: "customcrops:cabbage"
-    amount: 8
+    amount: 2
   ingredient_2:
     type: "minecraft"
     material: "red_mushroom_block"
-    amount: 16
+    amount: 4
   ingredient_3:
     type: "itemsadder"
     material: "customcrops:eggplant"
-    amount: 32
+    amount: 6
   ingredient_4:
     type: "itemsadder"
     material: "customcrops:pineapple"
-    amount: 64
+    amount: 8
   recipe_book:
     stamina: 2
   result:

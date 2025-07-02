@@ -58,4 +58,5 @@ public class PotConfig {
                 getConfig().
                 getStringList(COOKING_PROCESS_PATH + "hologram.lines");
     }
+
 }

@@ -15,11 +15,14 @@ cooking_ingredient:
   hologram:
     offset:
       - 0.5
-      - 2.5
+      - 3.5
       - 0.5
     lines:
+      - "当前剩余 %remaining_time% 秒投入食材"
+      - ""
       - "%material_itemstack%"
       - "%material_name% x %material_amount%"
+      - ""
       - "[ 右键投入烹饪食材 ]"
 
 cooking_process:

@@ -48,4 +48,8 @@ public class CookingSessionManager {
     public CookingSession getPlayerSession(UUID uuid) {
         return playerSession.get(uuid);
     }
+
+    public void removePlayerSession(UUID uuid) {
+        playerSession.remove(uuid);
+    }
 }
